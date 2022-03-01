@@ -1,10 +1,10 @@
-import WalletBalance from './WalletBalance';
+import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 
-import { ethers } from 'ethers';
-import FiredGuys from '../artifacts/contracts/MyNFT.sol/FiredGuys.json';
+import TABCerts from '../artifacts/contracts/MyNFT.sol/TABCerts.json';
+import WalletBalance from './WalletBalance';
 
-const contractAddress = 'YOUR_DEPLOYED_CONTRACT_ADDRESS';
+const contractAddress = '0xd8DD9A4DF405007a1cc36A95244c070233e67aFa';
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 
@@ -12,11 +12,9 @@ const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
 // get the smart contract
-const contract = new ethers.Contract(contractAddress, FiredGuys.abi, signer);
-
+const contract = new ethers.Contract(contractAddress, TABCerts.abi, signer);
 
 function Home() {
-
   const [totalMinted, setTotalMinted] = useState(0);
   useEffect(() => {
     getCount();
@@ -32,7 +30,7 @@ function Home() {
     <div>
       <WalletBalance />
 
-      <h1>Fired Guys NFT Collection</h1>
+      <h1>AUO Art NFT Collection</h1>
       <div className="container">
         <div className="row">
           {Array(totalMinted + 1)
@@ -49,10 +47,10 @@ function Home() {
 }
 
 function NFTImage({ tokenId, getCount }) {
-  const contentId = 'Qmdbpbpy7fA99UkgusTiLhMWzyd3aETeCFrz7NpYaNi6zY';
+  const contentId = 'QmSs5rywjUexihZf5uhyqwiYfDqFxXTSWTmkjh8ETAg2gM';
   const metadataURI = `${contentId}/${tokenId}.json`;
-  const imageURI = `https://gateway.pinata.cloud/ipfs/${contentId}/${tokenId}.png`;
-//   const imageURI = `img/${tokenId}.png`;
+  const imageURI = `https://cloudflare-ipfs.com/ipfs/QmTfyPzjCudY4PuMmxEpDKqvZqS6gkcDGfXFLHouZCvrYw/${tokenId}.gif`;
+  //   const imageURI = `img/${tokenId}.png`;
 
   const [isMinted, setIsMinted] = useState(false);
   useEffect(() => {
@@ -61,7 +59,7 @@ function NFTImage({ tokenId, getCount }) {
 
   const getMintedStatus = async () => {
     const result = await contract.isContentOwned(metadataURI);
-    console.log(result)
+    console.log(result);
     setIsMinted(result);
   };
 
@@ -69,7 +67,7 @@ function NFTImage({ tokenId, getCount }) {
     const connection = contract.connect(signer);
     const addr = connection.address;
     const result = await contract.payToMint(addr, metadataURI, {
-      value: ethers.utils.parseEther('0.05'),
+      value: ethers.utils.parseEther('0.001'),
     });
 
     await result.wait();
@@ -83,15 +81,15 @@ function NFTImage({ tokenId, getCount }) {
   }
   return (
     <div className="card" style={{ width: '18rem' }}>
-      <img className="card-img-top" src={isMinted ? imageURI : 'img/placeholder.png'}></img>
+      <img className="card-img-top" alt="NFT" src={isMinted ? imageURI : 'img/placeholder.png'} />
       <div className="card-body">
         <h5 className="card-title">ID #{tokenId}</h5>
         {!isMinted ? (
-          <button className="btn btn-primary" onClick={mintToken}>
+          <button type="button" className="btn btn-primary" onClick={mintToken}>
             Mint
           </button>
         ) : (
-          <button className="btn btn-secondary" onClick={getURI}>
+          <button type="button" className="btn btn-secondary" onClick={getURI}>
             Taken! Show URI
           </button>
         )}

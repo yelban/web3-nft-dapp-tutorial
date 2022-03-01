@@ -5,15 +5,16 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "hardhat/console.sol";
 
-contract FiredGuys is ERC721, ERC721URIStorage, Ownable {
+contract TABCerts is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdCounter;
 
     mapping(string => uint8) existingURIs;
 
-    constructor() ERC721("FiredGuys", "FYR") {}
+    constructor() ERC721("TABCerts", "TABC") {}
 
     function _baseURI() internal pure override returns (string memory) {
         return "ipfs://";
@@ -51,7 +52,7 @@ contract FiredGuys is ERC721, ERC721URIStorage, Ownable {
         string memory metadataURI
     ) public payable returns (uint256) {
         require(existingURIs[metadataURI] != 1, 'NFT already minted!');
-        require (msg.value >= 0.05 ether, 'Need to pay up!');
+        require (msg.value >= 0.001 ether, 'Need to pay up!');
 
         uint256 newItemId = _tokenIdCounter.current();
         _tokenIdCounter.increment();

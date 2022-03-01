@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "stylelint.vscode-stylelint",
+    "ritwickdey.liveserver",
+    "christian-kohler.path-intellisense",
+    "dsznajder.es7-react-js-snippets",
+    "bradlc.vscode-tailwindcss",
+    "sburg.vscode-javascript-booster",
+    "bradlc.vscode-tailwindcss",
+    "juanblanco.solidity"
+  ]
+}
